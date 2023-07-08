@@ -4,6 +4,10 @@
 
 🤖 <b>42Presence</b> is a Discord bot specifically developed to monitor the attendance of your friend who is a student at 42. It sends you notifications on Discord whenever they are present at the school.
 
+## 🚀 Demo
+![Screen](https://github.com/mousliiim/Bot-42Presence/assets/101677651/ac770981-943e-4cba-a6a5-38c87664eb66)
+![Screen2](https://github.com/mousliiim/Bot-42Presence/assets/101677651/5f8f5ff5-54cb-44e9-ab43-a9be53de5ca0)
+
 ## 🛠️ Configuration
 
 Before you can use the bot, you need to perform the following steps:
