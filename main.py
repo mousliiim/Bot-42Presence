@@ -290,7 +290,6 @@ async def on_ready():
                     if presence == ABSENT and stud == login and location_end_at is None:
                         student[login] = PRESENT
                         channel = client.get_channel(TON_CHANNEL_ID)
-                    else:
                         embed = discord.Embed(
                             title="Il/Elle est enfin venu ...",
                             description=f"✅ **{login}** est arrivé, Son poste est à **{location_host}**",
