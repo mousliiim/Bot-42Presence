@@ -13,10 +13,11 @@ global ABSENT
 global TIMESLEEP
 global picture
 
-# OUBLIE PAS DE MODIFIER LE CHANNEL ID
-
-API_UID = "UID" # UID SERVER
-API_SECRET = "SECRET" # SECRET SERVER
+API_UID = "UID 42 API"
+API_SECRET = "SECRET 42 API"
+CHANNEL_ID = "YOUR_CHANNEL_ID"
+AUTHOR_ID_DISCORD = "YOU'R PERSONAL USER ID IN DISCORD"
+BOT_ID = "YOU'R TOKEN OF DISCORD API BOT"
 
 PRESENT = True
 ABSENT = False
@@ -220,7 +221,7 @@ async def announce(ctx, str):
 	if ctx.author.id != AUTHOR_ID_DISCORD:
 		embed = discord.Embed(title="Annonce", description="❌ Vous n'avez pas la permission", color=0xFF0000)
 		return await ctx.send(embed=embed)
-	channel = client.get_channel(TON_CHANNEL_ID)
+	channel = client.get_channel(CHANNEL_ID)
 	embed = discord.Embed(title="Annonce", description=f"📢 **{str}**", color=0x00FF00)
 	return await channel.send(embed=embed)
 	
@@ -232,17 +233,16 @@ async def on_ready():
         description="✅ Bot connecté",
         color=0x00FF00
     )
-    channel = client.get_channel(TON_CHANNEL_ID)
+    channel = client.get_channel(CHANNEL_ID)
     await channel.send(embed=embed)
 
     global student
     global picture
     global TIMESLEEP
     TIMESLEEP = 90
-    load_student_json()
     first_fill = True
     first_time = True
-    mounir_check = False
+    load_student_json()
 
     for stud, presence in student.items():
         location = get_student_locations(stud)
@@ -258,10 +258,10 @@ async def on_ready():
 
     embed = discord.Embed(
         title="Bot 42Presence",
-        description="✅ Aucune erreur le bot a bien demmaré",
+        description="✅ Aucune erreur le bot a bien démarrer !",
         color=0x00FF00
     )
-    channel = client.get_channel(TON_CHANNEL_ID)
+    channel = client.get_channel(CHANNEL_ID)
     await channel.send(embed=embed)
 
     while True:
@@ -276,7 +276,7 @@ async def on_ready():
                     if presence == PRESENT and stud == login and location_end_at is not None:
                         student[login] = ABSENT
                         if not first_fill:
-                            channel = client.get_channel(TON_CHANNEL_ID)
+                            channel = client.get_channel(CHANNEL_ID)
                             embed = discord.Embed(
                                 title="Il/Elle est enfin parti ...",
                                 description=f"❌ **{login}** est parti, Son poste était à **{location_host}**",
@@ -289,7 +289,7 @@ async def on_ready():
                 for stud, presence in student.items():
                     if presence == ABSENT and stud == login and location_end_at is None:
                         student[login] = PRESENT
-                        channel = client.get_channel(TON_CHANNEL_ID)
+                        channel = client.get_channel(CHANNEL_ID)
                         embed = discord.Embed(
                             title="Il/Elle est enfin venu ...",
                             description=f"✅ **{login}** est arrivé, Son poste est à **{location_host}**",
@@ -302,4 +302,17 @@ async def on_ready():
         first_fill = False
         await asyncio.sleep(TIMESLEEP)
 
-client.run("BOT_ID") # FOR SERVER
+async def start_bot():
+    await client.start(BOT_ID)  # FOR SERVER
+
+def main():
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(start_bot())
+    except KeyboardInterrupt:
+        loop.run_until_complete(client.close())
+    finally:
+        loop.close()
+
+if __name__ == "__main__":
+    main()
